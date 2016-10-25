@@ -4,6 +4,7 @@ PV power performance simulation
 
 from carousel.core.outputs import Output
 from carousel.core.calculations import Calc
+from carousel.core.formulas import Formula
 
 
 class PVPowerOutputs(Output):
@@ -64,3 +65,21 @@ class UtilityCalcs(Calc):
             "returns": ["encapsulant_browning"]
         }
     ]
+
+
+class UtilityFormulas(Formula):
+    """
+    Formulas for PV Power demo
+    """
+    module = ".utils"
+    package = "formulas"
+    formulas = {
+        "f_energy": {
+            "args": ["ac_power", "times"],
+            "units": [["watt_hour", None], ["W", None]]
+        },
+        "f_rollup": {
+            "args": ["items", "times", "freq"],
+            "units": ["=A", ["=A", None, None]]
+        }
+    }
