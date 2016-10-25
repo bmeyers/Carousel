@@ -3,6 +3,7 @@ PV power performance simulation
 """
 
 from carousel.core.outputs import Output
+from carousel.core.calculations import Calc
 
 
 class PVPowerOutputs(Output):
@@ -18,3 +19,37 @@ class PVPowerOutputs(Output):
     hourly_timeseries = {"isconstant": True, "units": "W*h", "size": 8760}
     monthly_energy = {"isconstant": True, "units": "W*h", "size": 12}
     annual_energy = {"isconstant": True, "units": "W*h"}
+
+
+class UtilityCalcs(Calc):
+    """
+    Calculations for PV Power demo
+    """
+    dependencies = ["PerformanceCalcs"]
+    static = [
+        {
+            "formula": "f_energy",
+            "args": {
+                "outputs": {"ac_power": "Pac", "times": "timestamps"}
+            },
+            "returns": ["hourly_energy", "hourly_timeseries"]
+        },
+        {
+            "formula": "f_rollup",
+            "args": {
+                "data": {"freq": "MONTHLY"},
+                "outputs": {"items": "hourly_energy",
+                            "times": "hourly_timeseries"}
+            },
+            "returns": ["monthly_energy"]
+        },
+        {
+            "formula": "f_rollup",
+            "args": {
+                "data": {"freq": "YEARLY"},
+                "outputs": {"items": "hourly_energy",
+                            "times": "hourly_timeseries"}
+            },
+            "returns": ["annual_energy"]
+        }
+    ]
