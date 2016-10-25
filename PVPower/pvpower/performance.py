@@ -51,5 +51,16 @@ class UtilityCalcs(Calc):
                             "times": "hourly_timeseries"}
             },
             "returns": ["annual_energy"]
+        },
+        {
+            "formula": "f_encapsulant_browning",
+            "args": {
+                "data": {"encapsulant": "encapsulant"},
+                "outputs": {
+                    "prev_encapsulant_browning": ["encapsulant_browning", -1],
+                    "prev_day_cell_temp": ["Tcell", -1, "day"]
+                }
+            },
+            "returns": ["encapsulant_browning"]
         }
     ]
