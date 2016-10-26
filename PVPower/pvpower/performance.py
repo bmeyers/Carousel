@@ -7,9 +7,11 @@ from carousel.core.calculations import Calc
 from carousel.core.formulas import Formula
 from carousel.core.data_sources import DataSource
 from carousel.core.simulations import Simulation
+from carousel.core.models import Model
 from carousel.core import UREG
 from datetime import datetime
 import pvlib
+PROJ_PATH = '/Users/bennetmeyers/Devel/carousel/Carousel/PVPower'
 
 
 class PVPowerOutputs(Output):
@@ -162,3 +164,15 @@ class PVPowerSim(Simulation):
         ]
     }
     commands = ['start', 'pause', 'run', 'load']
+
+
+class NewSAPM(Model):
+    """
+    PV Power Demo model
+    """
+    modelpath = PROJ_PATH  # folder containing project, not model
+    data = [PVPowerData]
+    outputs = [PVPowerOutputs, PerformanceOutputs, IrradianceOutputs]
+    formulas = [UtilityFormulas, PerformanceFormulas, IrradianceFormulas]
+    calculations = [UtilityCalcs, PerformanceCalcs, IrradianceCalcs]
+    simulations = [PVPowerSim]
